@@ -38,100 +38,162 @@ $('#title').on('change', function() {
 });
 
 // Register for Activities section of the form.
-document.querySelector(".activities").addEventListener("change", function(){
-    var main = document.getElementById("all");
-    var framework = document.getElementById("framework");
-    var libs = document.getElementById("libs");
-    var express = document.getElementById("express");
-    var node = document.getElementById("node");
-    var build = document.getElementById("build");
-    var npm = document.getElementById("npm");
+$('.activities input').on('change', function(){
 
-    var frameworkLbl = document.getElementById("frameworkLabel");
-    var libsLbl = document.getElementById("libsLabel");
-    var expressLbl = document.getElementById("expressLabel");
-    var nodeLbl = document.getElementById("nodeLabel");
+if($('input[name="js-frameworks"]').prop('checked')){
 
 
-  
-    if(framework.checked == true) {
-        express.disabled = true;
-        expressLbl.style.color = "grey";
+
+    $('input[name="express"]').attr('disabled',true);
+
+    $('input[name="express"]').parent().addClass('disable');
+
+}
+
+else{
+
+    $('input[name="express"]').removeAttr('disabled');
+
+    $('input[name="express"]').parent().removeClass('disable');
+
     }
-    if(express.checked == true) {
-        framework.disabled=  true;
-        frameworkLbl.style.color = "grey";
-    }
-    if(libs.checked == true) {
-        node.disabled = true;
-        nodeLbl.style.color = "grey";
-    }
-    if(node.checked == true) {
-        libs.disabled = true;
-        libsLbl.style.color = "grey";
-    } 
-
-    
-    if(framework.checked == false) {
-        express.disabled = false;
-        expressLbl.style.color = "black";
-    }
-    if(express.checked == false) {
-        framework.disabled = false;
-        frameworkLbl.style.color = "black";
-    }
-    if(libs.checked == false) {
-        node.disabled = false;
-        nodeLbl.style.color = "black";
-    }
-    if(node.checked == false) {
-        libs.disabled = false;
-        libsLbl.style.color = "black";
-    }    
 
 
 
-});
+if($('input[name="express"]').prop('checked')){
 
-let price = 0;
-$activities = $('.activities');
-$($activities).on("change", function (event) {
-    const checkbox = $(event.target).parent.text();
-    console.log(checkbox);
+    $('input[name="js-frameworks"]').attr('disabled',true);
+
+    $('input[name="js-frameworks"]').parent().addClass('disable');
+
+   }
+
+else{
+
+    $('input[name="js-frameworks"]').removeAttr('disabled');
+
+    $('input[name="js-frameworks"]').parent().removeClass('disable');
+
+     }
+
+
+
+if($('input[name="js-libs"]').prop('checked')){
+
+    $('input[name="node"]').attr('disabled',true);
+
+    $('input[name="node"]').parent().addClass('disable');
+
+      }
+
+else{
+
+    $('input[name="node"]').removeAttr('disabled');
+
+    $('input[name="node"]').parent().removeClass('disable');
+
+        }
+
+
+
+if($('input[name="node"]').prop('checked')){
+
+    $('input[name="js-libs"]').attr('disabled',true);
+
+    $('input[name="js-libs"]').parent().addClass('disable');
+
+       }
+
+ else{
+
+    $('input[name="js-libs"]').removeAttr('disabled');
+
+    $('input[name="js-libs"]').parent().removeClass('disable');
+
+       }
+
+
+ 
+    // the starting price is $0
+    let price = 0;
+    const running = document.createElement("span");
+    $(".activities").append(running);
+    // when an activity is checked, add or subtract price
+    $(".activities").on("change", function (event) {
+    // get the text content of the label which is the parent
+    const checkbox = $(event.target).parent().text();
+    // get the last 3 characters and make them an integer and save it as "cost"
     let cost = parseInt(checkbox.substring(checkbox.length - 3));
-    let total = price += cost;
-    console.log(total);
+    // if the event target is checked now...
+    if ($(event.target).is(':checked')) {
+        // increase the price by the cost
+        price += cost;
+    } else {
+        // if it's now unchecked decrease the price by the cost
+        price -= cost;
+    }
+
+    running.innerHTML = "Total: $" + price;
+
 });
 
 
 //payment options
-
 const $paymentMethod = $("#payment");
-const creditcard = document.getElementsById("credit card");
-const paypal = document.getElementsById("paypal");
-const bitcoin = document.getElementsById("bitcoin");
 
-$($paymentMethod).change(function(){ 
+$($paymentMethod).on('change', function(){ 
     if ($paymentMethod.val() === "credit card") {
-        // show();
-        $("credit card").show();
+        $("#credit-card").show();
         // hide();
-        $("paypal").hide();
         // hide();
-        $("bitcoin").hide();
     } else if ($paymentMethod.val() === "paypal") {
         // show();
-        $("paypal").show();
         // hide();
-        $("bitcoin").hide();
         // hide();
-        $("credit card").hide();
     } else if ($paymentMethod.val() === "bitcoin") {
         // show();
-        $("bitcoin").show();
         // hide();
-        $("credit card").hide();
         // hide();
-        $("paypal").hide();
     }
+});
+
+
+// Form validation code will come here.
+$("form").submit (function(){
+    validate();
+});
+
+
+function validate() {
+
+    
+    if ($("#name").val() =="" ) {
+       alert( "Please provide your name!" );
+       ("#name").focus() ;
+       return false;
+    }
+    if ($("#mail").val()) {
+       alert( "Please provide your Email!" );
+       ("#mail").focus() ;
+       return false;
+ 
+    }
+    
+    
+    
+    return( true );
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
 });
