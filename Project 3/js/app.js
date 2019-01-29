@@ -153,47 +153,66 @@ $($paymentMethod).on('change', function(){
     } else if ($paymentMethod.val() === "bitcoin") {
         // show();
         // hide();
-        // hide();
+      // hide();
     }
 });
 
 
-// Form validation code will come here.
-$("form").submit (function(){
-    validate();
-});
 
+})
 
-function validate() {
+const usernameInput = document.getElementById("username");
+const emailInput = document.getElementById("email");
 
-    
-    if ($("#name").val() =="" ) {
-       alert( "Please provide your name!" );
-       ("#name").focus() ;
-       return false;
-    }
-    if ($("#mail").val()) {
-       alert( "Please provide your Email!" );
-       ("#mail").focus() ;
-       return false;
- 
-    }
-    
-    
-    
-    return( true );
+/**
+ * 
+ * VALIDATORS
+ *  
+ */
 
-
-
-
-
-
-
-
-
-
-
-
+// Can only contain letters a-z in lowercase
+function isValidUsername(username) {
+    return /^[-z]+$/.test(username);
 }
 
-});
+// Must be a valid email address
+function isValidEmail(email) {
+    return /^[^@]+@[^@.]+\[a-z]+$/i.test(email);
+}
+
+/**
+ * 
+ * FORMATTING FUNCTIONS
+ * 
+ */
+
+
+/**
+ * 
+ * SET UP EVENTS
+ * 
+ */
+
+function showOrHideTip(show, element) {
+  // show element when show is true, hide when false
+  if (show) {
+    element.style.display = "inherit";
+  } else {
+    element.style.display = "none";
+  }
+}
+
+function createListener(validator) {
+  return e => {
+    const text = e.target.value;
+    const valid = validator(text);
+    const showTip = text !== "" && !valid;
+    const tooltip = e.target.nextElementSibling;
+    showOrHideTip(showTip, tooltip);
+  };
+}
+
+usernameInput.addEventListener("input", createListener(isValidUsername));
+emailInput.addEventListener("input", createListener(isValidEmail));
+
+
