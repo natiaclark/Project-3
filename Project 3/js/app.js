@@ -112,57 +112,34 @@ if($('input[name="node"]').prop('checked')){
 
        }
 
-
- 
     // the starting price is $0
     let price = 0;
-    const running = document.createElement("span");
-    $(".activities").append(running);
+    // create a span to hold the total, and append it to the activities section
+    const runningTotal = document.createElement("span");
+     $(".activities").append(runningTotal);
+     $(runningTotal).text() = "Total: $" + price;
     // when an activity is checked, add or subtract price
-    $(".activities").on("change", function (event) {
+    $($activities).on("change", function (event) {
+     $("runningTotal").text() = $(price); 
     // get the text content of the label which is the parent
     const checkbox = $(event.target).parent().text();
     // get the last 3 characters and make them an integer and save it as "cost"
     let cost = parseInt(checkbox.substring(checkbox.length - 3));
-    // if the event target is checked now...
+    // if the event target is checked...
     if ($(event.target).is(':checked')) {
         // increase the price by the cost
         price += cost;
     } else {
-        // if it's now unchecked decrease the price by the cost
+        // if it's unchecked decrease the price by the cost
         price -= cost;
     }
-
-    running.innerHTML = "Total: $" + price;
+    // update it on the page
+    runningTotal.innerHTML = "Total: $" + price;
 
 });
 
-
-//payment options
-const $paymentMethod = $("#payment");
-
-$($paymentMethod).on('change', function(){ 
-    if ($paymentMethod.val() === "credit card") {
-        $("#credit-card").show();
-        // hide();
-        // hide();
-    } else if ($paymentMethod.val() === "paypal") {
-        // show();
-        // hide();
-        // hide();
-    } else if ($paymentMethod.val() === "bitcoin") {
-        // show();
-        // hide();
-      // hide();
-    }
-});
-
-
-
-})
-
-const usernameInput = document.getElementById("username");
-const emailInput = document.getElementById("email");
+const usernameInput = document.getElementById("name");
+const emailInput = document.getElementById("mail");
 
 /**
  * 
@@ -215,4 +192,8 @@ function createListener(validator) {
 usernameInput.addEventListener("input", createListener(isValidUsername));
 emailInput.addEventListener("input", createListener(isValidEmail));
 
+
+
+
+});
 
