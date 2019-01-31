@@ -14,7 +14,8 @@ $('#title').on('change', function() {
       $('#other-title').hide();
     }
  });
-
+ //function to calculate which colors should be shown/hidden depending on theme passed and sets the selected option based on the theme
+ //eventListener to get value of theme clicked on by user; calls colorsShown function if necessary
  document.getElementById("design").addEventListener("change", function(){
 	var tShirtMenu = document.getElementById('design');
 	var teeSelection = tShirtMenu.value;
@@ -37,7 +38,10 @@ $('#title').on('change', function() {
 	}
 });
 
+
 // Register for Activities section of the form.
+//function to disable proper activities depending on what has already be checked
+//function to reset checkboxes by re enabling them all
 $('.activities input').on('change', function(){
 
 if($('input[name="js-frameworks"]').prop('checked')){
@@ -75,7 +79,7 @@ else{
     $('input[name="js-frameworks"]').parent().removeClass('disable');
 
      }
-
+    
 
 
 if($('input[name="js-libs"]').prop('checked')){
@@ -111,16 +115,19 @@ if($('input[name="node"]').prop('checked')){
     $('input[name="js-libs"]').parent().removeClass('disable');
 
        }
-
+    });
+    
+    // Indasia and I worked together
+    
     // the starting price is $0
     let price = 0;
     // create a span to hold the total, and append it to the activities section
+ 
     const runningTotal = document.createElement("span");
-     $(".activities").append(runningTotal);
-     $(runningTotal).text() = "Total: $" + price;
+    $(".activities").append(runningTotal);
     // when an activity is checked, add or subtract price
-    $($activities).on("change", function (event) {
-     $("runningTotal").text() = $(price); 
+    $(".activities").on("change", function (event) {
+    // $("runningTotal").text() = $(price); 
     // get the text content of the label which is the parent
     const checkbox = $(event.target).parent().text();
     // get the last 3 characters and make them an integer and save it as "cost"
@@ -134,66 +141,165 @@ if($('input[name="node"]').prop('checked')){
         price -= cost;
     }
     // update it on the page
-    runningTotal.innerHTML = "Total: $" + price;
+    $(".activities span").text("Total: $" + price);
 
 });
 
-const usernameInput = document.getElementById("name");
-const emailInput = document.getElementById("mail");
+//payment options
+const $paymentMethod = $("#payment");
 
-/**
- * 
- * VALIDATORS
- *  
- */
-
-// Can only contain letters a-z in lowercase
-function isValidUsername(username) {
-    return /^[-z]+$/.test(username);
-}
-
-// Must be a valid email address
-function isValidEmail(email) {
-    return /^[^@]+@[^@.]+\[a-z]+$/i.test(email);
-}
-
-/**
- * 
- * FORMATTING FUNCTIONS
- * 
- */
-
-
-/**
- * 
- * SET UP EVENTS
- * 
- */
-
-function showOrHideTip(show, element) {
-  // show element when show is true, hide when false
-  if (show) {
-    element.style.display = "inherit";
-  } else {
-    element.style.display = "none";
-  }
-}
-
-function createListener(validator) {
-  return e => {
-    const text = e.target.value;
-    const valid = validator(text);
-    const showTip = text !== "" && !valid;
-    const tooltip = e.target.nextElementSibling;
-    showOrHideTip(showTip, tooltip);
-  };
-}
-
-usernameInput.addEventListener("input", createListener(isValidUsername));
-emailInput.addEventListener("input", createListener(isValidEmail));
-
-
-
-
+$($paymentMethod).on('change', function(){ 
+    if ($paymentMethod.val() === "credit card") {
+        $("#credit-card").show();
+        $("#payal").hide();
+        $("#bitcoin").hide();
+    } else if ($paymentMethod.val() === "paypal") {
+        $("#paypal").show();
+        $("#bitcoin").hide();
+        $("#credit-card").hide();
+        
+    } else if ($paymentMethod.val() === "bitcoin") {
+        $("#bitcoin").show();
+        $("#credit-card").hide();
+        $("#paypal").hide();
+    }
 });
 
+//FUNCTION VALIDATION
+// me, indasia, and lisa work together
+
+function validateForm() {
+
+    let nameValue = $('#name').val();
+
+    if (isValidName(nameValue)== false){
+        //create a red bored to show where the error is located
+        $('#name').css('border-color', 'red');
+        // set a time for the error box to show up after the red bored is presented.
+        setTimeout(function(){alert('Error! Please enter your name.');}, 3000);//name input. give error message an disable submit button');
+
+    } 
+
+
+
+    let emailValue = $('#mail').val();
+
+    if (isValidEmail(emailValue)== false){
+
+        $('#mail').css('border-color', 'red');
+
+        setTimeout(function(){alert('Error! Please enter valid email.');}, 1500);
+
+    } 
+
+
+
+    if (totalCost === 0) { 
+        //error box when no activities are selected.
+        alert('Error! You must select at least 1 activity. Please make your selection.');
+
+    }
+
+
+
+    let cardNumber = $('#cc-num').val();
+
+    let zip = $('#zip').val();
+
+    let cvv = $('#cvv').val();
+
+
+
+    if (payMethod.val() === 'credit card') {
+
+
+
+        if (isValidCardNumber(cardNumber)== false){
+
+            $('#cc-num').css('border-color', 'red');
+
+            setTimeout(function(){alert('Error! CC# is invalid. Must be 13-16 digits long.');}, 1500);
+
+            }  //else throw error message and disable
+
+
+
+        else if (isValidZip(zip)== false){
+
+            $('#zip').css('border-color', 'red');
+
+            setTimeout(function(){alert('Error! Your zip code is invalid. Must be 5 digits long.');}, 1500);
+
+            } 
+
+            
+
+        else if (isValidCvv(cvv)== false) {
+
+            $('#cvv').css('border-color', 'red');
+
+            setTimeout(function(){alert('Error! Your cvv is invalid. Must be 3 digits long.');}, 1500);
+
+            }
+
+    };
+
+ 
+
+};
+
+
+
+function isValidName(nameValue) { 
+
+    return /^[a-zA-Z][a-zA-Z\s]+$/i.test(nameValue); 
+
+};
+
+
+
+
+
+function isValidEmail(emailValue) {	// this regex taken from https://emailregex.com/
+
+    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(emailValue);
+
+};
+
+
+
+function isValidCardNumber(cardNumber) {
+
+    return /^\d{13,16}D*$/.test(cardNumber);
+
+}
+
+
+
+function isValidZip(zip) {
+
+    return /^\d{5}$/.test(zip);
+
+    console.log(zip);
+
+}
+
+
+
+function isValidCvv(cvv) {
+
+    return /^\d{3}$/.test(cvv);
+
+}
+
+
+
+$('button').on('click', function(e) {
+
+    e.preventDefault();
+
+    
+
+    validateForm();
+
+  });
