@@ -2,7 +2,14 @@
 $(document).ready(function(){
     $("#name").focus();
     $('#other-title').hide();
-    $("#credit-card").focus();	
+    $("#credit-card").show();
+    $("p").first().hide();
+    $("p").last().hide();
+
+    $("#payment option[value='credit card']").attr("selected", true);
+
+
+    
 });
 
 //
@@ -148,26 +155,23 @@ if($('input[name="node"]').prop('checked')){
 
 });
 
-
 //payment options
-// help from indasia
 const $paymentMethod = $("#payment");
-$("payal").hide();
-$("bitcoin").hide();
+
 $($paymentMethod).on('change', function(){ 
     if ($paymentMethod.val() === "credit card") {
         $("#credit-card").show();
-        $("#payal").hide();
-        $("#bitcoin").hide();
+        $("p").first().hide();
+        $("p").last().hide();
     } else if ($paymentMethod.val() === "paypal") {
-        $("#paypal").show();
-        $("#bitcoin").hide();
+        $("p").first().show();
+        $("p").last().hide();
         $("#credit-card").hide();
         
     } else if ($paymentMethod.val() === "bitcoin") {
-        $("#bitcoin").show();
+        $("p").last().show();
+        $("p").first().hide();
         $("#credit-card").hide();
-        $("#paypal").hide();
     }
 });
 
