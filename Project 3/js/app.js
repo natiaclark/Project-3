@@ -147,23 +147,31 @@ if($('input[name="node"]').prop('checked')){
 
 });
 
-//payment options
-const $paymentMethod = $("#payment");
 
-$($paymentMethod).on('change', function(){ 
+//payment options
+// help from indasia
+const $paymentMethod = $("#payment");
+//hide <p> elements so that only the credit card section shows
+$($("p").get(0)).hide();
+$($("p").get(1)).hide();
+
+// if a certain payment method is selected, hide the other two payment methods
+$($paymentMethod).change(function(){ 
+// if credit card is selected, show the credit card section and hide paypal and bitcoin
     if ($paymentMethod.val() === "credit card") {
         $("#credit-card").show();
-        $("#payal").hide();
-        $("#bitcoin").hide();
+        $($("p").get(0)).hide();
+        $($("p").get(1)).hide();
+// if paypal is selected, show the paypal section and hide credit card and bitcoin section
     } else if ($paymentMethod.val() === "paypal") {
-        $("#paypal").show();
-        $("#bitcoin").hide();
+        $($("p").get(0)).show();
+        $($("p").get(1)).hide();
         $("#credit-card").hide();
-        
+// if bitcoin is selected, show the bitcoin section and hide paypal and credit card section
     } else if ($paymentMethod.val() === "bitcoin") {
-        $("#bitcoin").show();
+        $($("p").get(1)).show();
+        $($("p").get(0)).hide();
         $("#credit-card").hide();
-        $("#paypal").hide();
     }
 });
 
