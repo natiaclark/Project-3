@@ -313,7 +313,7 @@ $('button').on('click', function (e) {
     if (validateForm() == true) {
         e.preventDefault();
     } else {
-        ("form").sumbit();
+        ("form").submit();
     }
     
 });
