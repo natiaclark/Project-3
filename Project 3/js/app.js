@@ -307,16 +307,18 @@ function isValidCvv(cvv) { //test to see the cvv number provided is 3 digits lon
 
 
 
-$('button').on('click', function(e) { //when "Submit" button is pushed validate form first
+var submitBtn = document.getElementByTagName('submit')[0];
 
-    e.preventDefault();
+submitBtn.addEventListener('click', validate);
 
-    
+function validate(event){
+     // Validation code here
 
-    validateForm();
-
-  });
-
+     if(!isValid){
+         event.preventDefault();
+         event.stopPropagation();
+     }
+};
 
 
   
