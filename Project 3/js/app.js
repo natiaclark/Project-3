@@ -306,11 +306,15 @@ function isValidCvv(cvv) { //test to see the cvv number provided is 3 digits lon
 }
 
 
-//
-document.querySelector("#id-checkbox").addEventListener("click", function(event) {
-    document.getElementById("output-box").innerHTML += "Sorry! <code>preventDefault()</code> won't let you check this!<br>";
-    event.preventDefault();
-}, false);
 
-
+// let user submit form unless there are errors
+$('button').on('click', function (e) {
+    validateForm();
+    if (validateForm() == true) {
+        e.preventDefault();
+    } else {
+        ("form").sumbit();
+    }
+    
+});
   
