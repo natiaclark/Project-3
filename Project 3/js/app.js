@@ -5,9 +5,8 @@ $(document).ready(function(){
     $("#credit-card").show();
     $("p").first().hide();
     $("p").last().hide();
-// default for the credit card. credit card is the payment methodshows when page first loads
+
     $("#payment option[value='credit card']").attr("selected", true);
-// disables the select method in the drop menu of payment selection
     $("#payment option[value='select_method']").attr("disabled", true);
 
     
@@ -23,10 +22,8 @@ $('#title').on('change', function() {
       $('#other-title').hide();
     }
  });
- 
-
-//calculates which color will be shown or not shown. which depends on what theme selected.
-// eventlistener get value of theme clicked on but customer also calls the colorshown function
+ //function to calculate which colors should be shown/hidden depending on theme passed and sets the selected option based on the theme
+ //eventListener to get value of theme clicked on by user; calls colorsShown function if necessary
  document.getElementById("design").addEventListener("change", function(){
 	var tShirtMenu = document.getElementById('design');
 	var teeSelection = tShirtMenu.value;
@@ -37,13 +34,13 @@ $('#title').on('change', function() {
 		
 	}
 	if(teeSelection === "js puns") {
-		
+		// If the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
 		colorSelector.innerHTML = '<label for="color">Color:</label><select id="color"><option value="cornflowerblue">Cornflower Blue</option><option value="darkslategrey">Dark Slate Grey</option><option value="gold">Gold</option></select>';
-		
+		//tColor.innerHTML = "<option value='cornflowerblue'>Cornflower Blue</option><option value='darkslategrey'>Dark Slate Grey</option><option value='gold'>Gold</option>"; 
 		
 	}
 	if(teeSelection === "heart js") {
-
+		// If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
 		colorSelector.innerHTML = '<label for="color">Color:</label><select id="color"><option value="tomato">Tomato</option><option value="steelblue">Steel Blue</option><option value="dimgrey">Dim Grey</option></select>';
 		
 	}
@@ -186,9 +183,9 @@ function validateForm() { //function to make sure inputs are valid before submit
     let nameValue = $('#name').val();
 
     if (isValidName(nameValue)== false){
-	
+
         $('#name').css('border-color', 'red');
-	// sets a time for the alert to pop in.
+
         setTimeout(function(){alert('Error! Please enter your name.');}, 3000);//name input. give error message an disable submit button');
 
     } 
@@ -305,16 +302,9 @@ function isValidCvv(cvv) { //test to see the cvv number provided is 3 digits lon
 
 }
 
-
-
-// let user submit form unless there are errors
-$('button').on('click', function (e) {
-    validateForm();
-    if (validateForm() == true) {
-        e.preventDefault();
-    } else {
-        ("form").submit();
-    }
     
+$('button').on('click', function (e) {
+    if (!validateForm()) {
+        e.preventDefault();
+    }
 });
-  
