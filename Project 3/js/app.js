@@ -265,7 +265,7 @@ function validateForm() { //function to make sure inputs are valid before submit
 
     };
 
- 
+ return valid;
 
 };
 
@@ -319,6 +319,5 @@ function isValidCvv(cvv) { //test to see the cvv number provided is 3 digits lon
 $('button').on('click', function (e) {
     if (!validateForm()) {
         e.preventDefault();
-    };
-    return valid;
+    }
 });
