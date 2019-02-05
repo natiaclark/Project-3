@@ -8,7 +8,7 @@ $(document).ready(function(){
 
     $("#payment option[value='credit card']").attr("selected", true);
     $("#payment option[value='select_method']").attr("disabled", true);
-
+    $("#color").hide();
     
 });
 
@@ -179,7 +179,8 @@ $($paymentMethod).on('change', function(){
 // me, indasia, and lisa work together
 
 function validateForm() { //function to make sure inputs are valid before submit can be executed
-
+    
+    let isValid = true;
     let nameValue = $('#name').val();
 
     if (isValidName(nameValue)== false){
@@ -187,6 +188,8 @@ function validateForm() { //function to make sure inputs are valid before submit
         $('#name').css('border-color', 'red');
 
         setTimeout(function(){alert('Error! Please enter your name.');}, 3000);//name input. give error message an disable submit button');
+
+        isValid = false; 
 
     } 
 
@@ -207,6 +210,8 @@ function validateForm() { //function to make sure inputs are valid before submit
     if (price === 0) { 
 
         alert('Error! You must select at least 1 activity. Please make your selection.');
+
+        isValid = false;
 
     }
 
@@ -230,6 +235,8 @@ function validateForm() { //function to make sure inputs are valid before submit
 
             setTimeout(function(){alert('Error! CC# is invalid. Must be 13-16 digits long.');}, 1500);
 
+            isValid = false;
+
             }  
 
 
@@ -240,6 +247,8 @@ function validateForm() { //function to make sure inputs are valid before submit
 
             setTimeout(function(){alert('Error! Your zip code is invalid. Must be 5 digits long.');}, 1500);
 
+            isValid = false;
+
             } 
 
             
@@ -249,6 +258,8 @@ function validateForm() { //function to make sure inputs are valid before submit
             $('#cvv').css('border-color', 'red');
 
             setTimeout(function(){alert('Error! Your cvv is invalid. Must be 3 digits long.');}, 1500);
+
+            isValid = false;
 
             }
 
@@ -302,9 +313,12 @@ function isValidCvv(cvv) { //test to see the cvv number provided is 3 digits lon
 
 }
 
+
+
     
 $('button').on('click', function (e) {
     if (!validateForm()) {
         e.preventDefault();
-    }
+    };
+    return valid;
 });
