@@ -265,7 +265,7 @@ function validateForm() { //function to make sure inputs are valid before submit
 
     };
 
- return valid;
+ return isValid;
 
 };
 
